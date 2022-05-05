@@ -1,6 +1,7 @@
-USE codeup_test_db;
+USE employees;
 
 DESCRIBE albums;
+DESCRIBE dept_employee;
 /*Add an index to make sure
 all album names combined with the artist are unique. Try to add duplicates to test the constraint.*/
 
