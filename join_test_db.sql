@@ -38,7 +38,7 @@ INSERT INTO users (name, email, role_id)
 VALUES ('Pat', 'pat@example.com', 2),
        ('George', 'george@ex.com', NULL),
        ('jim', 'kim@ex.com', 2),
-       ('troyf', 'troy@ex.com', 2)
+       ('troyf', 'troy@ex.com', 2);
 
 SELECT users.name AS user_name, roles.name AS role_name
 FROM users
@@ -75,21 +75,30 @@ FROM titles AS t
          JOIN employees AS e ON e.emp_no = t.emp_no JOINT dept_emp de
 on e.emp_no = de.emp_no
     JOIN departments d on de.dept_no = d.dept_no
-WHERE t.to_date > CURDATE()
-AND d.dept_name = 'Customer Service'
-AND de.to_date > CURDATE()
+WHERE t.to_date
+    > CURDATE()
+  AND d.dept_name = 'Customer Service'
+  AND de.to_date
+    > CURDATE()
 GROUP BY t.title;
 
-SELECT d.dept_name AS 'Department Name',
+SELECT d.dept_name                            AS 'Department Name',
        CONCAT(e.first_name, ' ', e.last_name) AS 'Derpartment Manager',
-       s.salary AS 'Salary'
+       s.salary                               AS 'Salary'
 FROM employees AS e
-JOIN dept_manager dm ON e.emp_no = dm.emp_no
-JOIN departments AS d ON d.dept_no = dm.dept_no
-JOIN salaries s on e.emp_no = s.emp_no
-WEHERE dm.to_date > CURDATE()
+         JOIN dept_manager dm ON e.emp_no = dm.emp_no
+         JOIN departments AS d ON d.dept_no = dm.dept_no
+         JOIN salaries s on e.emp_no = s.emp_no WEHERE dm.to_date > CURDATE()
 AND s.to_date > CURDATE();
 
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS Employee,
-       d.dept_name AS Department,
+SELECT CONCAT(e.first_name, ' ', e.last_name)   AS Employee,
+       d.dept_name                              AS Department,
+       CONCAT(e2.first_name, ' ', e2.last_name) AS Manager
+FROM employees AS e
+         JOIN dept_emp de on e.emp_no = de.emp_no
+         JOIN departments d on de.dept_no = d.dept_no
+         JOIN dept_manager dm on e2.emp_no = dm.dept_no
+         JOIN employees e2 on e2.emp_no = dm.emp_no
+WHERE de.to_date > CURDATE()
+  AND dm.to_date > CURDATE();
 
